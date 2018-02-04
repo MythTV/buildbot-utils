@@ -1,0 +1,36 @@
+OSX BuildSlave
+==============
+
+When initially setting up your buildslave you should start it
+up and run it as per the buildbot setup documentation.
+
+However when you want to start running it permanently, your
+natural tendency is to log into the OSX host, start the buildslave
+and then log back out again. As soon as you log out of the
+host your security context is destroyed. The side effect of this
+is the build slave loses all access to DNS. This is seen in the logs
+as follows
+
+"could not lookup DNS configuration info service: (ipc/send) invalid destination port"
+
+and it causes all your builds to start failing (which is really annoying).
+
+This problem is listed in the buildbot FAQ (http://trac.buildbot.net/wiki/FAQ)
+The work around to this is to run the build slave under launchd as described
+here (http://trac.buildbot.net/wiki/UsingLaunchd)
+
+The file ''net.buildbot.slave.mythtv.plist'' is a buildslave plist file for use
+with launchd. You should put it into /Library/LaunchDaemons on your OSX host.
+
+You can then tell launchd about that file with the command
+''launchctl load /Library/LaunchDaemons/net.buildbot.slave.mythtv.plist''
+
+The buildslave can then be started with
+''launchctl start net.buildbot.slave.mythtv''
+
+To restart the buildslave you need to kill the twistd process
+and launchd will automatically restart it.
+
+
+Happy Building!
+

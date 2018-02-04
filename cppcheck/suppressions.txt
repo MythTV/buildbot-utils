@@ -1,0 +1,110 @@
+// errorid{:path{:line}}
+
+// False Positives - Reported upstream, remove once fixed
+memleak:mythtv/libs/libmythtv/recorders/vbitext/vbi.c:455
+memleak:mythtv/libs/libmythmetadata/metadatacommon.cpp:573
+nullPointer:mythtv/libs/libmyth/audio/audiooutputgraph.cpp:122
+
+// False Positives - Not reported upstream
+
+// It seems to produce a few false positives in this file, as soon as they fix
+// one, another appears
+*:mythtv/libs/libmythui/lirc_client.c
+
+// The value of these defines is platform dependent
+duplicateExpression:mythtv/libs/libmythui/mythrender_opengl.cpp:355
+duplicateExpression:mythtv/libs/libmythui/mythrender_opengl.cpp:1314
+
+// Ignore these specific warnings
+copyCtorPointerCopying:mythtv/libs/libmythbase/referencecounterlist.h:22
+unusedScopedObject:mythtv/libs/libmythtv/mythplayer.cpp:2646
+passedByValue:mythtv/libs/libmythbase/mythdeque.h
+uninitMemberVar:mythtv/libs/libmythtv/eithelper.h:26
+uninitVar:mythtv/libs/libmythtv/mpeg/tspacket.h:131
+functionConst:mythtv/libs/libmythtv/teletextreader.h:80
+functionConst:mythtv/libs/libmythtv/teletextreader.h:83
+functionConst:mythtv/libs/libmythtv/teletextreader.h:86
+functionConst:mythtv/libs/libmythtv/teletextreader.h:101
+uninitVar:mythtv/libs/libmyth/audio/audiooutputbase.cpp:47
+uninitMemberVar:mythtv/libs/libmythbase/system-windows.cpp:79
+uninitVar:mythtv/libs/libmythbase/system-unix.cpp:77
+preprocessorErrorDirective:mythtv/libs/libmythtv/lzoconf.h
+functionConst:mythtv/programs/mythfrontend/videodlg.cpp
+duplicateExpression:mythtv/libs/libmythtv/eithelper.cpp
+duplicateExpression:mythtv/libs/libmythtv/fileringbuffer.cpp:227
+duplicateExpression:mythtv/libs/libmythui/mythrender_opengl.cpp:354
+duplicateExpression:mythtv/libs/libmythui/mythrender_opengl.cpp:1308
+unusedPrivateFunction:mythtv/programs/mythcommflag/ClassicLogoDetector.h:29
+unusedPrivateFunction:mythtv/programs/mythcommflag/ClassicLogoDetector.h:30
+unassignedVariable:mythtv/libs/libmythupnp/servicehost.cpp:141
+invalidPointerCast:mythtv/libs/libmyth/audio/audiooutputbase.cpp
+invalidPointerCast:mythtv/libs/libmyth/test/test_audioutils/test_audioutils.h
+
+// Compat.. these functions are safe on their respective platforms..
+gmtimeCalled:mythtv/libs/libmythbase/compat.h
+localtimeCalled:mythtv/libs/libmythbase/compat.h
+readdirCalled:mythtv/libs/libmythbase/compat.h
+
+// Thread safety requires these be copied and not referenced
+passedByValue:mythtv/libs/libmythbase/mythevent.h
+
+// These are QT macros
+cstyleCast:mythtv/programs/mythfrontend/programrecpriority.h:122
+cstyleCast:mythplugins/mythgame/mythgame/rominfo.h:174
+cstyleCast:mythplugins/mythgallery/mythgallery/iconview.h:49
+cstyleCast:mythplugins/mythbrowser/mythbrowser/bookmarkmanager.h:105
+cstyleCast:mythtv/libs/libmyth/mythrssmanager.h:107
+cstyleCast:mythtv/libs/libmyth/programinfo.h:718
+cstyleCast:mythtv/libs/libmythtv/recordinginfo.h:247
+cstyleCast:mythtv/libs/libmythtv/recordingrule.h:152
+cstyleCast:mythtv/libs/libmythtv/dbchannelinfo.h:75
+
+// Ignore all warnings in these files (third party code)
+*:external/*
+*:*/external/*
+*:mythtv/libs/libmythbase/unzip.cpp
+*:mythtv/libs/libmythbase/unzip.h
+*:mythtv/libs/libmythtv/dvbdev/dvbci.h
+*:mythtv/libs/libmythtv/dvbdev/dvbci.cpp
+*:mythtv/libs/libmythtv/lzodefs.h
+*:mythtv/libs/libmythtv/minilzo.cpp
+*:mythtv/libs/libmythtv/xine_demux_sputext.cpp
+*:mythplugins/mytharchive/mytharchivehelper/pxsup2dast.c
+*:mythplugins/mythgame/mythgame/unzip.c
+*:mythplugins/mythgame/mythgame/unzip.h
+*:mythplugins/mythmusic/contrib/*
+*:mythtv/libs/libmythnvctrl/*
+*:/usr/include/qt4/*
+*:/usr/include/*
+
+// Ignore all warnings in these files (generated code)
+*:*/moc/*
+
+// Ignore all warnings in these files (deprecated code)
+*:mythtv/libs/libmyth/mythwidgets.cpp
+*:mythtv/libs/libmyth/uitypes.cpp
+
+// Ignore all warnings in these files (deprecated Qt3Support module)
+leakReturnValNotUsed:mythtv/libs/libmythupnp/msocketdevice.cpp:328
+unsignedLessThanZero:mythtv/libs/libmythupnp/mmembuf.cpp:72
+
+// Ignore all warnings in these files (not source code)
+*:mythtv/docs/doxygen-architecture-document.cpp
+
+// Ignore all warnings of the following type
+cppcheckError
+variableScope
+missingInclude
+preprocessorErrorDirective
+cstyleCast
+noConstructor
+redundantAssignment
+unmatchedSuppression
+unusedFunction
+// No argument with the reasoning behind these checks, they are just
+// a very minor thing and clutters up the report - can be re-enabled
+// when we hit zero defects
+useInitializationList
+utimeCalled
+usleepCalled
+
