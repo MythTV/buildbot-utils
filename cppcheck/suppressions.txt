@@ -28,7 +28,6 @@ functionConst:mythtv/libs/libmythtv/teletextreader.h:101
 uninitVar:mythtv/libs/libmyth/audio/audiooutputbase.cpp:47
 uninitMemberVar:mythtv/libs/libmythbase/system-windows.cpp:79
 uninitVar:mythtv/libs/libmythbase/system-unix.cpp:77
-preprocessorErrorDirective:mythtv/libs/libmythtv/lzoconf.h
 functionConst:mythtv/programs/mythfrontend/videodlg.cpp
 duplicateExpression:mythtv/libs/libmythtv/eithelper.cpp
 duplicateExpression:mythtv/libs/libmythtv/fileringbuffer.cpp:227
@@ -66,14 +65,9 @@ cstyleCast:mythtv/libs/libmythtv/dbchannelinfo.h:75
 *:mythtv/libs/libmythbase/unzip.h
 *:mythtv/libs/libmythtv/dvbdev/dvbci.h
 *:mythtv/libs/libmythtv/dvbdev/dvbci.cpp
-*:mythtv/libs/libmythtv/lzodefs.h
-*:mythtv/libs/libmythtv/minilzo.cpp
 *:mythtv/libs/libmythtv/xine_demux_sputext.cpp
 *:mythplugins/mytharchive/mytharchivehelper/pxsup2dast.c
-*:mythplugins/mythgame/mythgame/unzip.c
-*:mythplugins/mythgame/mythgame/unzip.h
 *:mythplugins/mythmusic/contrib/*
-*:mythtv/libs/libmythnvctrl/*
 *:/usr/include/qt4/*
 *:/usr/include/*
 
