@@ -1,11 +1,15 @@
 #!/bin/bash
 
-#SOURCE_DIR= # Path to source code root
-#CONFIG_DIR= # Directory containing the suppressions.txt for cppcheck
-#OUTPUT_DIR= # Directory to write out the cppcheck.xml and index.html
-#BIN_DIR= # Directory containing generate_cppcheck_report.pl
+# Path to source code root
+SOURCE_DIR=${SOURCE_DIR:-"."}
+# Directory containing the suppressions.txt for cppcheck
+CONFIG_DIR=${CONFIG_DIR:-`dirname $0`}
+# Directory to write out the cppcheck.xml and index.html
+OUTPUT_DIR=${OUTPUT_DIR:-"."}
+# Directory containing generate_cppcheck_report.pl
+BIN_DIR=${BIN_DIR:-$CONFIG_DIR}
+
 PATH=$PATH:/usr/local/bin
-BIN_DIR=$CONFIG_DIR
 # unusedFunction check can't be used with '-j' option.
 JOBS_LIMIT=1
 SUPPRESSIONS_LIST=$CONFIG_DIR/suppressions.txt
