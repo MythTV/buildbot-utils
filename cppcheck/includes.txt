@@ -6,8 +6,6 @@ mythtv/external/libmythbluray/
 mythtv/external/libmythbluray/src/
 mythtv/external/libmythdvdnav/
 mythtv/external/libmythsoundtouch/
-mythtv/external/nzmqt/
-mythtv/external/zeromq/
 mythtv/libs/libmyth/
 mythtv/libs/libmyth/audio/
 mythtv/libs/libmythbase/

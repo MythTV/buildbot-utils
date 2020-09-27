@@ -58,10 +58,6 @@ cstyleCast:mythtv/libs/libmythtv/dbchannelinfo.h:75
 // Ignore all warnings in these files (generated code)
 *:*/moc/*
 
-// Ignore all warnings in these files (deprecated code)
-*:mythtv/libs/libmyth/mythwidgets.cpp
-*:mythtv/libs/libmyth/uitypes.cpp
-
 // Ignore all warnings in these files (deprecated Qt3Support module)
 leakReturnValNotUsed:mythtv/libs/libmythupnp/msocketdevice.cpp:328
 unsignedLessThanZero:mythtv/libs/libmythupnp/mmembuf.cpp:72
