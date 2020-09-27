@@ -52,7 +52,6 @@ cstyleCast:mythtv/libs/libmythtv/dbchannelinfo.h:75
 *:mythtv/libs/libmythtv/visualisations/goom/*
 *:mythplugins/mytharchive/mytharchivehelper/pxsup2dast.c
 *:mythplugins/mythmusic/contrib/*
-*:/usr/include/qt4/*
 *:/usr/include/*
 
 // Ignore all warnings in these files (generated code)
