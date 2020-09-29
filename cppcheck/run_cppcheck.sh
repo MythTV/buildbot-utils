@@ -1,5 +1,26 @@
 #!/bin/bash
 
+opt_c=0
+opt_e=0
+opt_x=0
+while getopts ":cehxq" opt; do
+    case ${opt} in
+        c) opt_c=1 ;;
+        e) opt_e=1 ;;
+        q) QUIET="-q" ;;
+        x) opt_x=1 ;;
+        h|\?)
+            echo "Usage: $0 [-ceqx]"
+            echo "  -c : Perform configuration check."
+            echo "  -e : Generate output that can be loaded into emacs."
+            echo "  -q : Only print something when there is an error."
+            echo "  -x : Don't generate xml output."
+            exit 1
+            ;;
+    esac
+done
+shift $((OPTIND -1))
+
 # Path to source code root
 SOURCE_DIR=${SOURCE_DIR:-"."}
 # Directory containing the suppressions.txt for cppcheck
@@ -28,4 +49,19 @@ HTML_FILE="index.html"
 
 # Switch to the source directory to get relative paths in output
 #cd $SOURCE_DIR
-cppcheck -j$JOBS_LIMIT --enable=all --platform=unix64 --library=posix.cfg --library=qt.cfg --std=posix --std=c++11 --std=c99 --xml-version=2 --inline-suppr --suppressions-list=$SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST $IGNORE_DIRS $CHECK_CONFIGS . 2> $OUTPUT_DIR/cppcheck.xml
+
+OPTIONS="$QUIET -j$JOBS_LIMIT --enable=all --platform=unix64 --library=posix.cfg --library=qt.cfg --std=posix --std=c++11 --std=c99 --inline-suppr --suppressions-list=$SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST $IGNORE_DIRS $CHECK_CONFIGS"
+
+# Perform a configuration check
+if [ $opt_c -eq 1 ]; then
+    cppcheck --check-config $OPTIONS . 2> $OUTPUT_DIR/cppcheck.config.check
+fi
+
+# Build output that emacs can parse
+if [ $opt_e -eq 1 ]; then
+    cppcheck --template=gcc  $OPTIONS . 2> $OUTPUT_DIR/cppcheck.emacs.full
+    cat $OUTPUT_DIR/cppcheck.emacs.full | egrep '(warning|note|error):' | sort -t: -k3,3 -k1,2 > $OUTPUT_DIR/cppcheck.emacs
+fi
+if [ $opt_x -eq 0 ]; then
+    cppcheck --xml-version=2 $OPTIONS . 2> $OUTPUT_DIR/cppcheck.xml
+fi
