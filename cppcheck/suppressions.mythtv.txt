@@ -1,0 +1,78 @@
+// errorid{:path{:line}}
+
+// False Positives - Reported upstream, remove once fixed
+memleak:libs/librecorders/vbitext/vbi.c:455
+memleak:libs/libmythmetadata/metadatacommon.cpp:573
+nullPointer:libs/libmyth/audio/audiooutputgraph.cpp:122
+
+// False Positives - Not reported upstream
+
+// It seems to produce a few false positives in this file, as soon as they fix
+// one, another appears
+*:libs/libmythui/lirc_client.c
+
+// The value of these defines is platform dependent
+duplicateExpression:libs/libmythui/mythrender_opengl.cpp:355
+duplicateExpression:libs/libmythui/mythrender_opengl.cpp:1314
+
+// Ignore these specific warnings
+uninitVar:libs/libmpeg/tspacket.h:131
+uninitMemberVar:libs/libmythbase/system-windows.cpp:79
+invalidPointerCast:libs/libmyth/audio/audiooutputbase.cpp
+cstyleCast:libs/librecorders/dvbdev/dvbci.cpp
+variableScope:libs/libyuv2rgb.cpp
+
+// Compat.. these functions are safe on their respective platforms..
+gmtimeCalled:libs/libmythbase/compat.h
+localtimeCalled:libs/libmythbase/compat.h
+readdirCalled:libs/libmythbase/compat.h
+
+// Thread safety requires these be copied and not referenced
+passedByValue:libs/libmythbase/mythevent.h
+
+// These are QT macros
+cstyleCast:programs/mythfrontend/programrecpriority.h:122
+cstyleCast:libs/libmyth/mythrssmanager.h:107
+cstyleCast:libs/libmyth/programinfo.h:718
+cstyleCast:libs/librecordinginfo.h:247
+cstyleCast:libs/librecordingrule.h:152
+cstyleCast:libs/libdbchannelinfo.h:75
+
+// Ignore all warnings in these files (third party code)
+*:external/*
+*:*/external/*
+*:libs/libmythbase/unzip.cpp
+*:libs/libmythbase/unzip.h
+*:libs/libdvbdev/dvbci.h
+*:libs/libdvbdev/dvbci.cpp
+*:libs/libxine_demux_sputext.cpp
+*:libs/libvisualisations/goom/*
+*:/usr/include/*
+
+// Ignore all warnings in these files (generated code)
+*:*/moc/*
+
+// Ignore all warnings in these files (deprecated Qt3Support module)
+leakReturnValNotUsed:libs/libmythupnp/msocketdevice.cpp:328
+unsignedLessThanZero:libs/libmythupnp/mmembuf.cpp:72
+
+// Ignore all warnings in these files (not source code)
+*:docs/doxygen-architecture-document.cpp
+
+// Ignore all warnings of the following type
+cppcheckError
+variableScope
+missingInclude
+preprocessorErrorDirective
+cstyleCast
+noConstructor
+redundantAssignment
+unmatchedSuppression
+unusedFunction
+// No argument with the reasoning behind these checks, they are just
+// a very minor thing and clutters up the report - can be re-enabled
+// when we hit zero defects
+useInitializationList
+utimeCalled
+usleepCalled
+
