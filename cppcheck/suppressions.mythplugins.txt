@@ -16,19 +16,8 @@ cstyleCast:mythbrowser/mythbrowser/bookmarkmanager.h:105
 *:*/moc/*
 
 // Ignore all warnings of the following type
-cppcheckError
-variableScope
 missingInclude
 preprocessorErrorDirective
 cstyleCast
-noConstructor
-redundantAssignment
 unmatchedSuppression
 unusedFunction
-// No argument with the reasoning behind these checks, they are just
-// a very minor thing and clutters up the report - can be re-enabled
-// when we hit zero defects
-useInitializationList
-utimeCalled
-usleepCalled
-
