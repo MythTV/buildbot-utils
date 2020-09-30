@@ -89,8 +89,8 @@ if [ $opt_x -eq 0 ]; then
     sed -e 's#file="#file="mythtv/#' \
         -e 's#file0="#file0="mythtv/#' $tmpdir/cppcheck.xml.1 | \
         head -n -2 >  $OUTPUT_DIR/cppcheck.xml
-    sed -e 's#file="#file="mythplugin/#' \
-        -e 's#file0="#file0="mythplugin/#' $tmpdir/cppcheck.xml.2 | \
+    sed -e 's#file="#file="mythplugins/#' \
+        -e 's#file0="#file0="mythplugins/#' $tmpdir/cppcheck.xml.2 | \
         tail -n +5 >> $OUTPUT_DIR/cppcheck.xml
 fi
 
