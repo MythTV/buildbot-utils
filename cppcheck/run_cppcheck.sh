@@ -63,7 +63,7 @@ HTML_FILE="index.html"
 # Switch to the source directory to get relative paths in output
 #cd $SOURCE_DIR
 
-CM_OPTIONS="$QUIET -j$JOBS_LIMIT --enable=all --platform=unix64 --library=posix.cfg --library=qt.cfg --std=posix --std=c++11 --std=c99 --inline-suppr $CHECK_CONFIGS"
+CM_OPTIONS="$QUIET -j$JOBS_LIMIT --enable=all --platform=unix64 --library=posix.cfg --library=qt.cfg --std=c++17 --inline-suppr $CHECK_CONFIGS"
 TV_OPTIONS="$CM_OPTIONS --suppressions-list=$TV_SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST $TV_IGNORE_DIRS"
 PL_OPTIONS="$CM_OPTIONS --suppressions-list=$PL_SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST_PL $PL_IGNORE_DIRS"
 
