@@ -31,3 +31,4 @@ preprocessorErrorDirective
 cstyleCast
 unmatchedSuppression
 unusedFunction
+unknownMacro
