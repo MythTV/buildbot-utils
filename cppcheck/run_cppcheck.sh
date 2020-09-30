@@ -67,27 +67,31 @@ CM_OPTIONS="$QUIET -j$JOBS_LIMIT --enable=all --platform=unix64 --library=posix.
 TV_OPTIONS="$CM_OPTIONS --suppressions-list=$TV_SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST $TV_IGNORE_DIRS"
 PL_OPTIONS="$CM_OPTIONS --suppressions-list=$PL_SUPPRESSIONS_LIST --includes-file=$INCLUDES_LIST_PL $PL_IGNORE_DIRS"
 
+tmpdir=$(mktemp -d /tmp/cppcheck-XXXXXX)
+
 # Perform a configuration check
 if [ $opt_c -eq 1 ]; then
-    (cd mythtv; cppcheck --check-config $TV_OPTIONS . 2> /tmp/cppcheck.config.check.1)
-    (cd mythplugins; cppcheck --check-config $PL_OPTIONS . 2> /tmp/cppcheck.config.check.2)
-    cat /tmp/cppcheck.config.check* > $OUTPUT_DIR/cppcheck.config.check
+    (cd mythtv; cppcheck --check-config $TV_OPTIONS . 2> $tmpdir/cppcheck.config.check.1)
+    (cd mythplugins; cppcheck --check-config $PL_OPTIONS . 2> $tmpdir/cppcheck.config.check.2)
+    cat $tmpdir/cppcheck.config.check* > $OUTPUT_DIR/cppcheck.config.check
 fi
 
 # Build output that emacs can parse
 if [ $opt_e -eq 1 ]; then
-    (cd mythtv      ; cppcheck --template=gcc $TV_OPTIONS . 2> /tmp/cppcheck.emacs.1)
-    (cd mythplugins ; cppcheck --template=gcc $PL_OPTIONS . 2> /tmp/cppcheck.emacs.2)
-    sed -e 's#^[a-z]#mythtv/&#'      /tmp/cppcheck.emacs.1 >  $OUTPUT_DIR/cppcheck.emacs
-    sed -e 's#^[a-z]#mythplugins/&#' /tmp/cppcheck.emacs.2 >> $OUTPUT_DIR/cppcheck.emacs
+    (cd mythtv      ; cppcheck --template=gcc $TV_OPTIONS . 2> $tmpdir/cppcheck.emacs.1)
+    (cd mythplugins ; cppcheck --template=gcc $PL_OPTIONS . 2> $tmpdir/cppcheck.emacs.2)
+    sed -e 's#^[a-z]#mythtv/&#'      $tmpdir/cppcheck.emacs.1 >  $OUTPUT_DIR/cppcheck.emacs
+    sed -e 's#^[a-z]#mythplugins/&#' $tmpdir/cppcheck.emacs.2 >> $OUTPUT_DIR/cppcheck.emacs
 fi
 if [ $opt_x -eq 0 ]; then
-    (cd mythtv;      cppcheck --xml-version=2 $TV_OPTIONS . 2> /tmp/cppcheck.xml.1)
-    (cd mythplugins; cppcheck --xml-version=2 $PL_OPTIONS . 2> /tmp/cppcheck.xml.2)
+    (cd mythtv;      cppcheck --xml-version=2 $TV_OPTIONS . 2> $tmpdir/cppcheck.xml.1)
+    (cd mythplugins; cppcheck --xml-version=2 $PL_OPTIONS . 2> $tmpdir/cppcheck.xml.2)
     sed -e 's#file="#file="mythtv/#' \
-        -e 's#file0="#file0="mythtv/#' /tmp/cppcheck.xml.1 | \
+        -e 's#file0="#file0="mythtv/#' $tmpdir/cppcheck.xml.1 | \
         head -n -2 >  $OUTPUT_DIR/cppcheck.xml
     sed -e 's#file="#file="mythplugin/#' \
-        -e 's#file0="#file0="mythplugin/#' /tmp/cppcheck.xml.2 | \
+        -e 's#file0="#file0="mythplugin/#' $tmpdir/cppcheck.xml.2 | \
         tail -n +5 >> $OUTPUT_DIR/cppcheck.xml
 fi
+
+rm -rf $tmpdir
