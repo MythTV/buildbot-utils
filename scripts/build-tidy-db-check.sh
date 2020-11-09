@@ -24,7 +24,7 @@ done
 # Need storage outside the tree
 #
 BRANCH=$( parse_git_branch )
-CACHEDIR="${HOME}/.cache/buildbot/mythtv/${BRANCH}"
+CACHEDIR="${HOME}/.cache/buildbot/mythtv${1}/${BRANCH}"
 mkdir -p "${CACHEDIR}"
 if [[ ! -e "${CACHEDIR}" ]] ; then
    echo "cachefail"
