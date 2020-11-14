@@ -24,7 +24,7 @@ done
 # Need storage outside the tree
 #
 BRANCH=$( parse_git_branch )
-CACHEDIR="${HOME}/.cache/buildbot/mythtv/${BRANCH}"
+CACHEDIR="${HOME}/.cache/buildbot/mythtv${1}/${BRANCH}"
 
 CACHEJSON="${CACHEDIR}/compile_commands.json"
 LOCALJSON="compile_commands.json"
