@@ -10,7 +10,7 @@
 *:libs/libdvbdev/dvbci.h
 *:libs/libdvbdev/dvbci.cpp
 *:libs/libxine_demux_sputext.cpp
-*:libs/libvisualisations/goom/*
+*:libs/libmythtv/visualisations/goom/*
 *:/usr/include/*
 
 // Ignore all warnings in these files (generated code)
