@@ -220,7 +220,7 @@ foreach my $error (@sorted_errors) {
     # A warning can refer to multiple locations in a file
     my $locations;
     foreach my $location (@{$error->{location}}) {
-        $locations .= "<a target=\"_blank\" href=\"https://code.mythtv.org/cgit/mythtv/tree/" . $location->{file} . "#n" . $location->{line} . "\">". $location->{file} . ":" . $location->{line} . "</a><br />";
+        $locations .= "<a target=\"_blank\" href=\"https://github.com/MythTV/mythtv/blob/master/" . $location->{file} . "#L" . $location->{line} . "\">". $location->{file} . ":" . $location->{line} . "</a><br />";
     }
 
     # The description may contain characters which must be encoded for HTML
