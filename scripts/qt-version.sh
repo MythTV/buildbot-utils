@@ -1,5 +1,22 @@
 #!/bin/sh
 
+if [ "$#" -gt 1 ]; then
+  echo "Usage: $0 [qt6]" >&2
+  exit 1
+elif [ "$#" -eq 1 ]; then
+    case "$1" in
+        qt*)
+            qtver="$(echo $1 | tr -d -c '0123456789')"
+            ;;
+        *)
+            echo "Usage: $0 qt<num>" >&2
+            exit 1
+            ;;
+    esac
+else
+    qtver="5"
+fi
+
 # Use gcc to get target string
 GCC=$(which gcc 2> /dev/null)
 EXISTS_GSS=$?
@@ -12,7 +29,7 @@ fi
 QLOC=""
 if [ -n $TARGET ] ; then
     # raspbian, debian (stretch and earlier), Ubuntu
-    QLOC=/usr/lib/${TARGET}/qt5/bin/qmake
+    QLOC=/usr/lib/${TARGET}/qt${qtver}/bin/qmake
 fi
 # /usr/local/bin/qmake          <= FreeBSD
 # /usr/lib/qt5/bin/qmake        <= Debian Buster
@@ -21,8 +38,9 @@ fi
 
 QLOC="$QLOC \
     /usr/local/bin/qmake \
-    /usr/lib/qt5/bin/qmake \
-    /usr/bin/qmake-qt5 \
+    /usr/lib/qt${qtver}bin/qmake \
+    /usr/bin/qmake-qt${qtver} \
+    /usr/bin/qmake${qtver} \
     /usr/bin/qmake \
 "
 
@@ -31,4 +49,4 @@ for q in $QLOC ; do
         exec $q -v
     fi
 done
-echo "Can't find Qt5"
+echo "Can't find Qt${qtver}"
