@@ -13,6 +13,46 @@ import subprocess
 from pathlib import Path
 
 #
+# Remove cppcoreguidelines-pro-type-static-cast-downcast warnings caused by the Qt toolkit
+#
+def clean_cppcoreguidelines_pro_type_static_cast_downcast(lines):
+    to_delete = {}
+    for i,line in enumerate(lines):
+        if line.find('[cppcoreguidelines-pro-type-static-cast-downcast]') == -1:
+            continue
+        if lines[i+3].find('qguiapplication.h') >= 0:
+            to_delete[i] = i+6
+    keys = list(to_delete.keys())
+    keys.sort()
+    for start in reversed(keys):
+        lines = lines[:start] + lines[to_delete[start]:]
+    return lines
+
+
+#
+# Remove misc-const-correctness warnings caused by the Qt toolkit
+#
+def clean_misc_const_correctness(lines):
+    to_delete = {}
+    for i,line in enumerate(lines):
+        if line.find('[misc-const-correctness]') == -1:
+            continue
+        if lines[i+1].find('QStringLiteral') >= 0:
+            to_delete[i] = i+6
+        elif lines[i+0].find('QByteArrayDataPtr') >= 0:
+            to_delete[i] = i+6
+        elif lines[i+0].find('QStringDataPtr') >= 0:
+            to_delete[i] = i+9
+        elif lines[i+0].find('QCoreApplication') >= 0:
+            to_delete[i] = i+6
+    keys = list(to_delete.keys())
+    keys.sort()
+    for start in reversed(keys):
+        lines = lines[:start] + lines[to_delete[start]:]
+    return lines
+
+
+#
 # Remove misc-no-recursion warnings caused by the Qt toolkit
 #
 def clean_misc_no_recursion(lines):
@@ -56,7 +96,6 @@ def clean_modernize_type_traits(lines):
 # Remove performance-enum-size warnings caused by the Qt toolkit
 #
 def clean_performance_enum_size(lines):
-    print('clean_performance_enum_size called', file=sys.stderr)
     to_delete = {}
     for i,line in enumerate(lines):
         if line.find('[performance-enum-size]') == -1:
@@ -66,6 +105,9 @@ def clean_performance_enum_size(lines):
         elif (lines[i+1].find('QStringLiteral') >= 0
               or lines[i+1].find('ByteArrayLiteral') >= 0):
             to_delete[i] = i+6
+        elif (lines[i+4].find('QStringLiteral') >= 0
+              or lines[i+4].find('ByteArrayLiteral') >= 0):
+            to_delete[i] = i+9
     keys = list(to_delete.keys())
     keys.sort()
     for start in reversed(keys):
@@ -121,15 +163,15 @@ def clean_lines(lines):
         # Fix /blah/../
         match = re.search(re1, line)
         while match is not None:
-            line = re.sub(re1, '/', line, 1)
+            line = re.sub(re1, '/', line, count=1)
             match = re.search(re1, line)
 
         # Fix /./ and ./
         match = re.search(re2, line)
         while match is not None:
-            line = re.sub(re2, '/', line ,1)
+            line = re.sub(re2, '/', line, count=1)
             match = re.search(re2, line)
-        line = re.sub(re3, '', line ,1)
+        line = re.sub(re3, '', line, count=1)
 
         line = re.sub(re4, '', line)
         line = re.sub(re5, '', line)
@@ -139,6 +181,8 @@ def clean_lines(lines):
 
         lines[i] = line
 
+    lines = clean_cppcoreguidelines_pro_type_static_cast_downcast(lines)
+    lines = clean_misc_const_correctness(lines)
     lines = clean_misc_no_recursion(lines)
     lines = clean_modernize_type_traits(lines)
     lines = clean_performance_enum_size(lines)
