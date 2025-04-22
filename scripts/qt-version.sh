@@ -31,14 +31,14 @@ if [ -n $TARGET ] ; then
     # raspbian, debian (stretch and earlier), Ubuntu
     QLOC=/usr/lib/${TARGET}/qt${qtver}/bin/qmake
 fi
-# /usr/local/bin/qmake          <= FreeBSD
+# /usr/local/lib/qt5/bin/qmake  <= FreeBSD
 # /usr/lib/qt5/bin/qmake        <= Debian Buster
 # /usr/bin/qmake-qt5            <= Fedora, Centos
 # /usr/bin/qmake                <= Archlinux
 
 QLOC="$QLOC \
-    /usr/local/bin/qmake \
-    /usr/lib/qt${qtver}bin/qmake \
+    /usr/local/lib/qt${qtver}/bin/qmake \
+    /usr/lib/qt${qtver}/bin/qmake \
     /usr/bin/qmake-qt${qtver} \
     /usr/bin/qmake${qtver} \
     /usr/bin/qmake \
