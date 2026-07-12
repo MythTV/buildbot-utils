@@ -13,6 +13,21 @@ import subprocess
 from pathlib import Path
 
 #
+# Remove clang-analyzer-cplusplus.NewDeleteLeaks warnings caused by the Qt toolkit
+#
+def clean_clang_analyzer_cplusplus_NewDeleteLeaks(lines):
+    for i,line in enumerate(lines):
+        if line.find('[clang-analyzer-cplusplus.NewDeleteLeaks]') == -1:
+            continue
+        if line.find('qhostinfo.h') == -1:
+            continue
+        line = line.replace('warning: Potential leak of','info: Qt owns')
+        line = line.replace('[clang-analyzer-cplusplus.NewDeleteLeaks]','')
+        lines[i] = line
+    return lines
+
+
+#
 # Remove cppcoreguidelines-pro-type-static-cast-downcast warnings caused by the Qt toolkit
 #
 def clean_cppcoreguidelines_pro_type_static_cast_downcast(lines):
@@ -20,6 +35,8 @@ def clean_cppcoreguidelines_pro_type_static_cast_downcast(lines):
     for i,line in enumerate(lines):
         if line.find('[cppcoreguidelines-pro-type-static-cast-downcast]') == -1:
             continue
+        if lines[i+3].find('qapplication.h') >= 0:
+            to_delete[i] = i+6
         if lines[i+3].find('qguiapplication.h') >= 0:
             to_delete[i] = i+6
     keys = list(to_delete.keys())
@@ -181,6 +198,7 @@ def clean_lines(lines):
 
         lines[i] = line
 
+    lines = clean_clang_analyzer_cplusplus_NewDeleteLeaks(lines)
     lines = clean_cppcoreguidelines_pro_type_static_cast_downcast(lines)
     lines = clean_misc_const_correctness(lines)
     lines = clean_misc_no_recursion(lines)
