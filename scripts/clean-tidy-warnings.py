@@ -79,6 +79,8 @@ def clean_misc_no_recursion(lines):
             continue
         if lines[i+1].find('Q_DECLARE_METATYPE') >= 0:
             to_delete[i] = i+9
+        elif lines[i+1].find('Q_DECLARE_TYPEINFO') >= 0:
+            to_delete[i] = i+9
         elif lines[i+1].find('Q_DECL_CONSTEXPR') >= 0:
             to_delete[i] = i+28
     keys = list(to_delete.keys())
@@ -119,6 +121,8 @@ def clean_performance_enum_size(lines):
             continue
         if lines[i+1].find('Q_DECLARE_METATYPE') >= 0:
             to_delete[i] = i+9
+        elif lines[i+1].find('Q_DECLARE_TYPEINFO') >= 0:
+            to_delete[i] = i+9
         elif (lines[i+1].find('QStringLiteral') >= 0
               or lines[i+1].find('ByteArrayLiteral') >= 0):
             to_delete[i] = i+6
@@ -141,6 +145,8 @@ def clean_performance_no_int_to_ptr(lines):
         if line.find('[performance-no-int-to-ptr]') == -1:
             continue
         if lines[i+1].find('Q_DECLARE_METATYPE') >= 0:
+            to_delete[i] = i+9
+        elif lines[i+1].find('Q_DECLARE_TYPEINFO') >= 0:
             to_delete[i] = i+9
     keys = list(to_delete.keys())
     keys.sort()
