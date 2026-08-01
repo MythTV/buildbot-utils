@@ -156,7 +156,27 @@ def clean_performance_no_int_to_ptr(lines):
 
 
 #
-# Remove performance-no-int-to-ptr warnings caused by the Qt toolkit
+# Remove readability-inconsistent-declaration-parameter-name warnings
+# caused by the Qt toolkit.  These are because the moc compiler names
+# every variable as _t<blah>.  These can be caught by looking for the
+# moc_xxx.h filename.
+#
+def clean_readability_inconsistent_declaration_parameter_name(lines):
+    to_delete = {}
+    for i,line in enumerate(lines):
+        if line.find('[readability-inconsistent-declaration-parameter-name]') == -1:
+            continue
+        if lines[i+3].find('/moc_') >= 0:
+            to_delete[i] = i+10
+    keys = list(to_delete.keys())
+    keys.sort()
+    for start in reversed(keys):
+        lines = lines[:start] + lines[to_delete[start]:]
+    return lines
+
+
+#
+# Remove readability-math-missing-parentheses warnings caused by the Qt toolkit
 #
 def clean_readability_math_missing_parentheses(lines):
     to_delete = {}
@@ -167,6 +187,26 @@ def clean_readability_math_missing_parentheses(lines):
             to_delete[i] = i+6
         elif lines[i+6].find('qstringliteral.h') >= 0:
             to_delete[i] = i+9
+    keys = list(to_delete.keys())
+    keys.sort()
+    for start in reversed(keys):
+        lines = lines[:start] + lines[to_delete[start]:]
+    return lines
+
+
+#
+# Remove readability-named-parameter warnings caused by the Qt toolkit.
+# These are because the moc compiler names every variable as _t<blah>.
+# All filenames are original source files, so these must be caught by
+# looking specifically for _t variable names.
+#
+def clean_readability_named_parameter(lines):
+    to_delete = {}
+    for i,line in enumerate(lines):
+        if line.find('[readability-named-parameter]') == -1:
+            continue
+        if lines[i+3].find('/*_t') >= 0:
+            to_delete[i] = i+4
     keys = list(to_delete.keys())
     keys.sort()
     for start in reversed(keys):
@@ -211,8 +251,11 @@ def clean_lines(lines):
     lines = clean_modernize_type_traits(lines)
     lines = clean_performance_enum_size(lines)
     lines = clean_performance_no_int_to_ptr(lines)
+    lines = clean_readability_inconsistent_declaration_parameter_name(lines)
     lines = clean_readability_math_missing_parentheses(lines)
+    lines = clean_readability_named_parameter(lines)
     return lines
+
 
 def process_file(filein):
     with open(f"{filein}") as f:
