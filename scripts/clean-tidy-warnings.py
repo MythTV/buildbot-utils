@@ -214,6 +214,20 @@ def clean_readability_named_parameter(lines):
     return lines
 
 
+#
+# Remove any warnings from including moc_xxx.cpp files into the
+# xxx.cpp file.
+#
+def clean_moc_files(lines):
+    for i,line in enumerate(lines):
+        match = re.search(r'moc_\w+\.cpp', line)
+        if not match:
+            continue
+        line = line.replace('warning','ignoremoc')
+        lines[i] = line
+    return lines
+
+
 def clean_lines(lines):
     re1 = re.compile(r'/[^\.\./]+/../')
     re2 = re.compile(r'/\./')
@@ -254,6 +268,7 @@ def clean_lines(lines):
     lines = clean_readability_inconsistent_declaration_parameter_name(lines)
     lines = clean_readability_math_missing_parentheses(lines)
     lines = clean_readability_named_parameter(lines)
+    lines = clean_moc_files(lines)
     return lines
 
 
